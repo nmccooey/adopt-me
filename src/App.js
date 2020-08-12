@@ -1,22 +1,25 @@
-const Pet = ({ name, animal, breed }) => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, name),
-    React.createElement("h2", {}, animal),
-    React.createElement("h2", {}, breed),
-  ]);
-};
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import { Router, Link } from "@reach/router";
+import Details from "./Details";
+import SearchParams from "./SearchParams";
+import ThemeContext from "./ThemeContext";
 
 const App = () => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, "Adopt Me!"),
-    React.createElement(Pet, { name: "Itchy", animal: "Cat", breed: "Tuxedo" }),
-    React.createElement(Pet, {
-      name: "Parsnip",
-      animal: "Dog",
-      breed: "Labrador",
-    }),
-    React.createElement(Pet, { name: "Tesla", animal: "Cat", breed: "Calico" }),
-  ]);
+  const theme = useState("darkblue");
+  return (
+    <ThemeContext.Provider value={theme}>
+      <div>
+        <header>
+          <Link to="/">Adopt Me!</Link>
+        </header>
+        <Router>
+          <SearchParams path="/" />
+          <Details path="/details/:id" />
+        </Router>
+      </div>
+    </ThemeContext.Provider>
+  );
 };
 
-ReactDOM.render(React.createElement(App), document.querySelector("#root"));
+ReactDOM.render(<App />, document.getElementById("root"));
